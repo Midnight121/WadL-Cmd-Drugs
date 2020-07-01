@@ -45,6 +45,28 @@ Citizen.CreateThread(function()
 		end
 end)
 
+Citizen.CreateThread(function()
+	while true do
+		if IsPlayerDead(PlayerId()) then
+			if high then 
+       			 StopGameplayCamShaking(true)
+				resetAnims()
+				DisabledRun = false
+				high = false
+				SetTransitionTimecycleModifier('default', 0.35)
+				--SetPedMoveRateOverride(source, 0)
+				SetRunSprintMultiplierForPlayer(source, 1.01)
+				SetEntityMaxHealth(GetPlayerPed(-1), 200)
+				TriggerEvent('chat:addMessage', {
+					color = { 255, 0, 0},
+					multiline = true,
+					args = {"WadL Drugs", "^2^*You have died under the influence"}
+				})
+			end
+		end
+		Citizen.Wait(3500)
+    end
+end)
 
 RegisterCommand("weed", function(source, args, rawCommand)
 	if #args < 1 then
@@ -82,24 +104,6 @@ RegisterCommand("weed", function(source, args, rawCommand)
 		args = {"WadL Drugs", "^2^*You are already high"}
 	})
 	end
-end)
-
-AddEventHandler('baseevents:onPlayerDied', function()
-	if high == true then
-	StopGameplayCamShaking(true)
-		resetAnims()
-		DisabledRun = false
-		high = false
-		SetTransitionTimecycleModifier('default', 0.35)
-		--SetPedMoveRateOverride(source, 0)
-		SetRunSprintMultiplierForPlayer(source, 1.01)
-		SetEntityMaxHealth(GetPlayerPed(-1), 200)
-	TriggerEvent('chat:addMessage', {
-		color = { 255, 0, 0},
-		multiline = true,
-		args = {"WadL Drugs", "^2^*You have died under the influence"}
-	})
-end
 end)
 
 RegisterCommand("coke", function(source, args, rawCommand)
