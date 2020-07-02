@@ -1,9 +1,14 @@
+----- [ Script made by: WadL ]
+----- https://forum.cfx.re/t/release-wadls-command-drugs-standalone
+----- https://github.com/Midnight121/WadL-Cmd-Drugs
+
 --Usage 
---/drugs-weed <amount> 
---/drugs-coke <amount>
---/drugs-lean <amount>
---/drugs-percs <amount>
---/drugs-N2O <amount>
+--/weed <amount> (Smokes Weed)
+--/coke <amount> (Snortes Coke)
+--/lean <amount> (Drinks Double-Cup of Lean)
+--/meth <amount> (Injects Syringe of meth)
+--/N2O <amount> (Inhales N2O Cannisters)
+--/killdrugs (Removes all effects of drugs If enabled)
 
 --The amount of drugs you take will effect the duration
 --Config
@@ -11,8 +16,8 @@
 --Enable overdose
 local OD = true
 
---Enable killhigh command?
-local kh = true
+--Enable killdrugs command?
+local kd = true
 
 --Duration of weed effect 
 local WadLWeedDura = 60*1000
@@ -23,14 +28,13 @@ local WadLCokeDura = 40*1000
 --Duration of lean effect 
 local WadLLeanDura = 120*1000
 
---Duration of percs effect 
+--Duration of meth effect 
 local WadLMethDura = 80*1000
 
 --Duration of N2O effect 
 local WadLN2ODura = 5*1000
 
 --START OF CODE
-prefix = "^1[WadL Drugs]^2 " --Don't change... please?
 high = false 
 DisabledRun = false
 
@@ -41,6 +45,28 @@ Citizen.CreateThread(function()
 		end
 end)
 
+Citizen.CreateThread(function()
+	while true do
+		if IsPlayerDead(PlayerId()) then
+			if high then 
+       			 StopGameplayCamShaking(true)
+				resetAnims()
+				DisabledRun = false
+				high = false
+				SetTransitionTimecycleModifier('default', 0.35)
+				--SetPedMoveRateOverride(source, 0)
+				SetRunSprintMultiplierForPlayer(source, 1.01)
+				SetEntityMaxHealth(GetPlayerPed(-1), 200)
+				TriggerEvent('chat:addMessage', {
+					color = { 255, 0, 0},
+					multiline = true,
+					args = {"WadL Drugs", "^2^*You have died under the influence"}
+				})
+			end
+		end
+		Citizen.Wait(3500)
+    end
+end)
 
 RegisterCommand("drugs-weed", function(source, args, rawCommand)
 	if #args < 1 then
@@ -48,7 +74,7 @@ RegisterCommand("drugs-weed", function(source, args, rawCommand)
 	    TriggerEvent('chat:addMessage', {
 			color = { 255, 0, 0},
 			multiline = true,
-			args = {"WadL Drugs", "^2Correct usage of command is ^*/drugs-weed <amount>"}
+			args = {"WadL Drugs", "^2Correct usage of command is ^*/weed <amount>"}
 		})
 	    return;
 	end
@@ -86,7 +112,7 @@ RegisterCommand("drugs-coke", function(source, args, rawCommand)
 	    TriggerEvent('chat:addMessage', {
 			color = { 255, 0, 0},
 			multiline = true,
-			args = {"WadL Drugs", "^2Correct usage of command is ^*/drugs-coke <amount>"}
+			args = {"WadL Drugs", "^2Correct usage of command is ^*/coke <amount>"}
 		})
 	    return;
 	end
@@ -153,7 +179,7 @@ RegisterCommand("drugs-lean", function(source, args, rawCommand)
 	    TriggerEvent('chat:addMessage', {
 			color = { 255, 0, 0},
 			multiline = true,
-			args = {"WadL Drugs", "^2Correct usage of command is ^*/drugs-lean <amount>"}
+			args = {"WadL Drugs", "^2Correct usage of command is ^*/lean <amount>"}
 		})
 	    return;
 	end
@@ -213,7 +239,7 @@ RegisterCommand("drugs-meth", function(source, args, rawCommand)
 	    TriggerEvent('chat:addMessage', {
 			color = { 255, 0, 0},
 			multiline = true,
-			args = {"WadL Drugs", "^2Correct usage of command is ^*/drugs-meth <amount>"}
+			args = {"WadL Drugs", "^2Correct usage of command is ^*/meth <amount>"}
 		})
 	    return;
 	end
@@ -276,7 +302,7 @@ RegisterCommand("drugs-N2O", function(source, args, rawCommand)
 	    TriggerEvent('chat:addMessage', {
 			color = { 255, 0, 0},
 			multiline = true,
-			args = {"WadL Drugs", "^2Correct usage of command is ^*/drugs-N2O <amount>"}
+			args = {"WadL Drugs", "^2Correct usage of command is ^*/N2O <amount>"}
 		})
 	    return;
 	end
@@ -340,18 +366,24 @@ RegisterCommand("drugs-N2O", function(source, args, rawCommand)
 end)
 
 RegisterCommand("killhigh", function(source, args, rawCommand)
-	if kh == true then
+	if kd == true then
+		high = false
 		StopGameplayCamShaking(true)
 		resetAnims()
 		SetTransitionTimecycleModifier('default', 0.35)
 		--SetPedMoveRateOverride(source, 0)
 		SetRunSprintMultiplierForPlayer(source, 1.01)
 		SetEntityMaxHealth(GetPlayerPed(-1), 200)
+		TriggerEvent('chat:addMessage', {
+			color = { 255, 0, 0},
+			multiline = true,
+			args = {"WadL Drugs", "^2Drugs have been removed from your bodie"}
+		})
 	else
 	TriggerEvent('chat:addMessage', {
 		color = { 255, 0, 0},
 		multiline = true,
-		args = {"WadL Drugs", "^2^*Kill high has been disabled on this server"}
+		args = {"WadL Drugs", "^2^*Kill drugs has been disabled on this server"}
 	})
 	end
 end)
@@ -366,4 +398,3 @@ function resetAnims()
 	ResetPedWeaponMovementClipset(GetPlayerPed(-1))
 	ResetPedStrafeClipset(GetPlayerPed(-1))
 end
-
