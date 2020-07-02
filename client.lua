@@ -68,7 +68,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-RegisterCommand("weed", function(source, args, rawCommand)
+RegisterCommand("drugs-weed", function(source, args, rawCommand)
 	if #args < 1 then
 	    -- Too low args
 	    TriggerEvent('chat:addMessage', {
@@ -106,7 +106,7 @@ RegisterCommand("weed", function(source, args, rawCommand)
 	end
 end)
 
-RegisterCommand("coke", function(source, args, rawCommand)
+RegisterCommand("drugs-coke", function(source, args, rawCommand)
 	if #args < 1 then
 	    -- Too low args
 	    TriggerEvent('chat:addMessage', {
@@ -173,7 +173,7 @@ RegisterCommand("coke", function(source, args, rawCommand)
 	end
 end)
 
-RegisterCommand("lean", function(source, args, rawCommand)
+RegisterCommand("drugs-lean", function(source, args, rawCommand)
 	if #args < 1 then
 	    -- Too low args
 	    TriggerEvent('chat:addMessage', {
@@ -233,7 +233,7 @@ RegisterCommand("lean", function(source, args, rawCommand)
 	end
 end)
 
-RegisterCommand("meth", function(source, args, rawCommand)
+RegisterCommand("drugs-meth", function(source, args, rawCommand)
 	if #args < 1 then
 	    -- Too low args
 	    TriggerEvent('chat:addMessage', {
@@ -296,7 +296,7 @@ RegisterCommand("meth", function(source, args, rawCommand)
 	end
 end)
 
-RegisterCommand("N2O", function(source, args, rawCommand)
+RegisterCommand("drugs-N2O", function(source, args, rawCommand)
 	if #args < 1 then
 	    -- Too low args
 	    TriggerEvent('chat:addMessage', {
