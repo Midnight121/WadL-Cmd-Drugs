@@ -365,7 +365,7 @@ RegisterCommand("drugs-N2O", function(source, args, rawCommand)
 	end
 end)
 
-RegisterCommand("killdrugs", function(source, args, rawCommand)
+RegisterCommand("killhigh", function(source, args, rawCommand)
 	if kd == true then
 		high = false
 		StopGameplayCamShaking(true)
